@@ -1,0 +1,36 @@
+var timeout, min, seg=59, tiempo = $('#tiempo');
+ 
+   function zeroIzq(n){
+        if(n<=9&&n>=0){
+            return '0'+n;
+        }else{
+            return n;
+        }
+    }
+
+    function regresivo(limite){
+        var cron;
+        if(min==limite){
+            min=min-1;
+        }
+        if(min==0&&seg==0){
+            clearTimeout(timeout);
+            tiempo.html( '00:00:00');
+        }else{
+            cron='00:'+min+':'+zeroIzq(seg);
+            tiempo.html(cron);
+            seg=seg-1;
+                if(seg==0&&min>0){
+                    min=min-1;
+                    seg=59;
+                }
+            timeout = setTimeout(regresivo,1000);
+        }
+    }
+ 
+ function iniciar(limite){
+        min=limite;
+        clearTimeout(timeout);
+        regresivo(limite);
+    }
+$(document).ready( iniciar(15) );
